@@ -30,7 +30,8 @@ namespace DemoPLL
             //builder.Services.AddScoped<DepartmentService>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             //builder.Services.AddScoped<IDepartmentRepository,MocDepartmentRepository>();
-
+            // register To Service in DI Container
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             #endregion
 
             #endregion
