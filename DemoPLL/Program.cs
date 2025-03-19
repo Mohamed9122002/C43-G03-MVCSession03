@@ -1,3 +1,9 @@
+using Demo.BuisnessLogic.Services;
+using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.Repositories.DepartmentRepositorys;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
+
 namespace DemoPLL
 {
     public class Program
@@ -9,6 +15,24 @@ namespace DemoPLL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            #region . Register To Service in DI Container
+            //. Register To Service in DI Container
+            //builder.Services.AddScoped<ApplictionDbContext>();  2. Register To Service in DI Container
+            builder.Services.AddDbContext<ApplictionDbContext>(options =>
+            {
+                //options.UseSqlServer(builder.Configuration["ConnectionStrings.DefaultConnection"]);
+                //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"])
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+
+            });
+
+            //builder.Services.AddScoped<DepartmentService>();
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            //builder.Services.AddScoped<IDepartmentRepository,MocDepartmentRepository>();
+
+            #endregion
+
             #endregion
             var app = builder.Build();
 
@@ -32,7 +56,7 @@ namespace DemoPLL
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            app.Run(); 
+            app.Run();
             #endregion
         }
     }
